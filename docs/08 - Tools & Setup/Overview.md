@@ -13,7 +13,7 @@ A record of every tool connected to this project, why it was chosen, what it doe
 | [[Git & GitHub]] | Version control | ✅ Done | Repo, branches, protection rules |
 | [[GitHub MCP Server#1. GitHub Actions CI|GitHub Actions CI]] | CI/CD | ✅ Done | Runs contracts (compile + test) and backend (install) on every PR |
 | [[PR Templates\|PR Templates]] | Workflow | ✅ Done | 4 templates: contracts, backend, frontend, docs |
-| Obsidian Git plugin | Documentation | ⬜ Pending | Auto-sync docs to GitHub |
+| Obsidian Git plugin | Documentation | ✅ Done | Auto-sync docs to GitHub every 10 minutes |
 | Obsidian Dataview plugin | Documentation | ⬜ Pending | Query todos across all notes |
 | Filesystem MCP Server | AI tooling | ⬜ Pending | Copilot accesses local files |
 | Docker Desktop | DevOps | 🔜 Next | Needed to run the full stack |
