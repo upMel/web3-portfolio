@@ -12,6 +12,7 @@ Welcome to your Web3 Portfolio project vault. Use this as your living documentat
 - [[05 - Docker/Setup|Docker Setup]]
 - [[06 - DevLog/Log|Dev Log]]
 - [[07 - Git Workflow/Branching Strategy|Git Workflow & Branching]]
+- [[08 - Tools & Setup/Overview|Tools & Setup]]
 
 ## Project Goals
 
