@@ -16,6 +16,11 @@ contracts/typechain-types/
 frontend/.next/
 frontend/out/
 
+# Obsidian — machine-specific vault state, never commit
+docs/.obsidian/workspace.json
+docs/.obsidian/workspace-mobile.json
+docs/.obsidian/.obsidian/
+
 # OS
 .DS_Store
 Thumbs.db
