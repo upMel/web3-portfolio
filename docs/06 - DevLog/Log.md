@@ -39,8 +39,8 @@
 - [x] **Install contract deps** — `npm install` done, 6 tests passing in CI
 - [x] **Install backend deps** — `npm install` done
 - [x] **Wire wagmi into frontend** — wagmi v2 + viem + RainbowKit configured
-- [ ] **Build portfolio page** — read all projects from contract via wagmi
-- [ ] **Build admin panel** — owner-only page to add/remove projects
+- [x] **Build portfolio page** — reads all active projects from contract, loading/error/empty states
+- [x] **Build admin panel** — owner-only, add project form + remove button, wallet-gated
 - [ ] **Run full stack** — `docker compose up --build`
 - [ ] **Deploy to Sepolia testnet** — first real deployment
 - [ ] **Set up Vercel / Railway** — host frontend and backend
