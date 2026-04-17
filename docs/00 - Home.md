@@ -13,6 +13,7 @@ Welcome to your Web3 Portfolio project vault. Use this as your living documentat
 - [[06 - DevLog/Log|Dev Log]]
 - [[07 - Git Workflow/Branching Strategy|Git Workflow & Branching]]
 - [[08 - Tools & Setup/Overview|Tools & Setup]]
+- [[08 - Tools & Setup/PR Templates|PR Templates]]
 
 ## Project Goals
 

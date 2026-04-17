@@ -12,7 +12,7 @@ A record of every tool connected to this project, why it was chosen, what it doe
 | [[Obsidian]] | Documentation | ✅ Done | This vault |
 | [[Git & GitHub]] | Version control | ✅ Done | Repo, branches, protection rules |
 | GitHub Actions CI | CI/CD | ⬜ Pending | Auto-run tests on every PR |
-| PR Template | Workflow | ⬜ Pending | Consistent PR format + checklist |
+| [[PR Templates\|PR Templates]] | Workflow | ✅ Done | 4 templates: contracts, backend, frontend, docs |
 | Obsidian Git plugin | Documentation | ⬜ Pending | Auto-sync docs to GitHub |
 | Obsidian Dataview plugin | Documentation | ⬜ Pending | Query todos across all notes |
 | Filesystem MCP Server | AI tooling | ⬜ Pending | Copilot accesses local files |

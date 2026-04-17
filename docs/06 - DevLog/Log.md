@@ -25,7 +25,7 @@
 ### Pending — Tools & Workflow
 
 - [ ] **GitHub Actions CI** — create `.github/workflows/ci.yml` to run `npx hardhat test` on every PR
-- [ ] **PR Template** — create `.github/pull_request_template.md` with checklist
+- [x] **PR Template** — created 4 templates: `contracts.md`, `backend.md`, `frontend.md`, `docs.md`
 - [ ] **Obsidian Git plugin** — install from Community Plugins, set auto-backup to 10 min
 - [ ] **Obsidian Dataview plugin** — install from Community Plugins
 - [ ] **Filesystem MCP Server** — add `@modelcontextprotocol/server-filesystem` to `mcp.json`

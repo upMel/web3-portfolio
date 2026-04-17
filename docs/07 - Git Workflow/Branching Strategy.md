@@ -91,7 +91,14 @@ git push origin feature/your-feature-name
 
 ### Finishing a feature — open a PR
 
-On GitHub: `feature/your-feature-name` → `develop`
+Use the correct template URL based on what you changed (replace `your-branch`):
+
+| Area changed | PR URL |
+|---|---|
+| Contracts | `https://github.com/upMel/web3-portfolio/compare/develop...your-branch?template=contracts.md` |
+| Backend | `https://github.com/upMel/web3-portfolio/compare/develop...your-branch?template=backend.md` |
+| Frontend | `https://github.com/upMel/web3-portfolio/compare/develop...your-branch?template=frontend.md` |
+| Docs | `https://github.com/upMel/web3-portfolio/compare/develop...your-branch?template=docs.md` |
 
 After the PR is merged:
 ```bash
@@ -99,6 +106,8 @@ git checkout develop
 git pull origin develop
 git branch -d feature/your-feature-name
 ```
+
+See [[../08 - Tools & Setup/PR Templates|PR Templates]] for full checklist details.
 
 ### Promoting to staging (UAT)
 
