@@ -35,10 +35,10 @@
 
 ### Pending — Project Development
 
-- [ ] **Frontend scaffold** — `npx create-next-app@latest frontend --typescript --tailwind --app --src-dir`
-- [ ] **Install contract deps** — `cd contracts && npm install && npx hardhat test`
-- [ ] **Install backend deps** — `cd backend && npm install`
-- [ ] **Wire wagmi into frontend** — connect to local Hardhat chain
+- [x] **Frontend scaffold** — Next.js 14, TypeScript, Tailwind, App Router
+- [x] **Install contract deps** — `npm install` done, 6 tests passing in CI
+- [x] **Install backend deps** — `npm install` done
+- [x] **Wire wagmi into frontend** — wagmi v2 + viem + RainbowKit configured
 - [ ] **Build portfolio page** — read all projects from contract via wagmi
 - [ ] **Build admin panel** — owner-only page to add/remove projects
 - [ ] **Run full stack** — `docker compose up --build`
