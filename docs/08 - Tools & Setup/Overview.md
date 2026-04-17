@@ -11,6 +11,11 @@ A record of every tool connected to this project, why it was chosen, what it doe
 | [[GitHub MCP Server]] | AI + GitHub integration | ✅ Done | Runs via Copilot, no install needed |
 | [[Obsidian]] | Documentation | ✅ Done | This vault |
 | [[Git & GitHub]] | Version control | ✅ Done | Repo, branches, protection rules |
+| GitHub Actions CI | CI/CD | ⬜ Pending | Auto-run tests on every PR |
+| PR Template | Workflow | ⬜ Pending | Consistent PR format + checklist |
+| Obsidian Git plugin | Documentation | ⬜ Pending | Auto-sync docs to GitHub |
+| Obsidian Dataview plugin | Documentation | ⬜ Pending | Query todos across all notes |
+| Filesystem MCP Server | AI tooling | ⬜ Pending | Copilot accesses local files |
 | Docker Desktop | DevOps | 🔜 Next | Needed to run the full stack |
 | Node.js | Runtime | 🔜 Next | Needed for contracts + backend |
 | MetaMask | Wallet | 🔜 Next | Browser extension for testing |

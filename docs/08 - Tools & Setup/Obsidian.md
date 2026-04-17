@@ -92,13 +92,39 @@ Query your notes like a database. Example: show all tasks marked `- [ ]` across 
 
 Go to **Settings → Community plugins → Browse**
 
-| Plugin | What it does |
-|---|---|
-| **Dataview** | Query notes like SQL — list all todos, all projects, etc. |
-| **Calendar** | Visual calendar linked to daily notes |
-| **Git** | Auto-commit vault changes to GitHub from inside Obsidian |
-| **Excalidraw** | Draw architecture diagrams inside notes |
-| **Templater** | Smarter templates with dynamic content (dates, variables) |
+| Plugin | What it does | Status |
+|---|---|---|
+| **Git** | Auto-commits vault changes to GitHub on a schedule — docs stay in sync with code | ⬜ Not installed |
+| **Dataview** | Query notes like SQL — e.g. show all `- [ ]` todos across every note in one view | ⬜ Not installed |
+| **Calendar** | Visual calendar linked to daily notes | ⬜ Not installed |
+| **Excalidraw** | Draw architecture diagrams inside notes | ⬜ Not installed |
+| **Templater** | Smarter templates with dynamic content (dates, variables) | ⬜ Not installed |
+
+### Priority installs
+
+#### 1. Obsidian Git — ⬜ Not done yet
+**What it does:** Automatically commits and pushes your vault to GitHub on a timer (e.g. every 10 minutes) or on vault close.
+
+**Why it matters:** Right now, if you update a doc in Obsidian you have to manually `git add / commit / push`. This plugin does it for you silently in the background so your docs are always backed up and in sync.
+
+**How to install:**
+1. Settings → Community plugins → turn off Safe mode
+2. Browse → search "Obsidian Git" → Install → Enable
+3. Settings → Obsidian Git → set "Auto backup interval" to `10` (minutes)
+
+#### 2. Dataview — ⬜ Not done yet
+**What it does:** Lets you write queries inside notes that pull data from across the vault. Example — add this to any note:
+
+````markdown
+```dataview
+TASK WHERE !completed
+```
+````
+
+This renders a live list of every unchecked `- [ ]` task from every note in the vault.
+
+**How to install:**
+1. Settings → Community plugins → Browse → search "Dataview" → Install → Enable
 
 ---
 

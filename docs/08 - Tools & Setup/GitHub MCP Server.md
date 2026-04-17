@@ -105,20 +105,79 @@ But for VS Code Copilot, the remote hosted version you already have is the right
 
 ## What could make this even better?
 
-| Addition | What it adds |
-|---|---|
-| **Other MCP servers** | Connect more tools (see below) |
-| **GitHub Actions** | Automate CI/CD triggered by what MCP creates (branches, PRs) |
-| **GitHub Issues workflow** | Use Copilot to create, assign, and close issues as your task tracker |
+### 1. GitHub Actions CI — ⬜ Not done yet
+**What it is:** Automated workflows that run on GitHub every time you push code or open a PR.
+
+**What it will do for this project:**
+- Automatically run `npx hardhat test` on every PR to `develop`
+- Block merging if any test fails
+- Show a green ✅ or red ❌ check on every PR
+
+**Why it matters:** Smart contract bugs are permanent on mainnet. CI is the safety net that catches broken code before it ever reaches `staging` or `main`.
+
+**Status:** Will be set up as a `.github/workflows/ci.yml` file in the repo. Copilot can create this directly.
+
+---
+
+### 2. PR Template — ⬜ Not done yet
+**What it is:** A `.github/pull_request_template.md` file that auto-fills every new PR with a checklist.
+
+**What it will look like:**
+```markdown
+## What does this PR do?
+
+## Checklist
+- [ ] Tests pass (npx hardhat test)
+- [ ] No secrets committed
+- [ ] Docs updated if needed
+```
+
+**Why it matters:** Forces you to think before merging. Also builds a good habit for when you work with others.
+
+**Status:** Copilot can create this file directly — just ask.
+
+---
+
+### 3. Filesystem MCP Server — ⬜ Not done yet
+**What it is:** A locally-run MCP server that gives Copilot access to your local file system — not just GitHub.
+
+**What changes:** Right now Copilot can only read/write files that are in your VS Code workspace. With the filesystem MCP, it can access any path on your machine.
+
+**How to add it** (when ready):
+```bash
+npm install -g @modelcontextprotocol/server-filesystem
+```
+Then add to `C:\Users\MeletisPeppas\AppData\Roaming\Code\User\mcp.json`:
+```json
+"filesystem": {
+  "type": "stdio",
+  "command": "npx",
+  "args": ["-y", "@modelcontextprotocol/server-filesystem", "C:\\Users\\MeletisPeppas\\Desktop\\web3"]
+}
+```
+
+---
+
+### 4. GitHub Issues as task tracker — ⬜ Optional
+**What it is:** Using GitHub Issues instead of (or alongside) the Dev Log to track tasks.
+
+**What Copilot can do with MCP:**
+- Create issues from chat ("create an issue: set up wagmi config")
+- List open issues
+- Close issues when a PR is merged
+
+**Why it matters:** Issues are linked to commits and PRs automatically — you get traceability (which commit fixed which bug) for free.
+
+---
 
 ### Other MCP Servers worth knowing
 
 | MCP Server | What it connects | Useful for |
 |---|---|---|
-| `@modelcontextprotocol/server-filesystem` | Your local file system | Let Copilot read/write files |
-| `@modelcontextprotocol/server-postgres` | PostgreSQL database | Query your DB from Copilot |
+| `@modelcontextprotocol/server-filesystem` | Your local file system | Copilot reads/writes any local file |
+| `@modelcontextprotocol/server-postgres` | PostgreSQL database | Query your DB from Copilot chat |
 | `@modelcontextprotocol/server-brave-search` | Brave Search API | Real-time web search in Copilot |
-| Playwright MCP | Browser automation | Test your frontend from Copilot |
+| Playwright MCP | Browser automation | Test your frontend UI from Copilot |
 
 These are installed locally and added to the same `mcp.json` file.
 
