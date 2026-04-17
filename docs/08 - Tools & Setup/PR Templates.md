@@ -4,31 +4,50 @@ This project uses multiple PR templates — one per area of the codebase. GitHub
 
 ---
 
-## How to open a PR with the right template
+## Full procedure — how to open a PR
 
-Replace `your-branch` with your actual branch name and click the link for the area you changed:
+### Step 1 — Finish your work on the feature branch
 
-### Contracts (Solidity, tests, deploy scripts)
-```
-https://github.com/upMel/web3-portfolio/compare/develop...your-branch?template=contracts.md
-```
-
-### Backend (Express routes, ethers.js services, config)
-```
-https://github.com/upMel/web3-portfolio/compare/develop...your-branch?template=backend.md
+```bash
+git add .
+git commit -m "feat: describe what you did"
+git push origin feature/your-feature-name
 ```
 
-### Frontend (Next.js pages, components, wagmi hooks)
-```
-https://github.com/upMel/web3-portfolio/compare/develop...your-branch?template=frontend.md
-```
+### Step 2 — Pick the right template URL
 
-### Docs (Obsidian notes, README, architecture)
-```
-https://github.com/upMel/web3-portfolio/compare/develop...your-branch?template=docs.md
-```
+Look at what files you changed and pick one:
 
-> If merging into `staging` or `main` instead of `develop`, replace `develop` in the URL with the target branch name.
+| Area changed | Template URL |
+|---|---|
+| `contracts/` | `https://github.com/upMel/web3-portfolio/compare/develop...feature/your-feature-name?template=contracts.md` |
+| `backend/` | `https://github.com/upMel/web3-portfolio/compare/develop...feature/your-feature-name?template=backend.md` |
+| `frontend/` | `https://github.com/upMel/web3-portfolio/compare/develop...feature/your-feature-name?template=frontend.md` |
+| `docs/` only | `https://github.com/upMel/web3-portfolio/compare/develop...feature/your-feature-name?template=docs.md` |
+
+> Changed multiple areas (e.g. contracts + backend)? Use the **contracts** template — it's the highest-risk area and its checklist is the most important.
+
+> Merging into `staging` or `main` instead of `develop`? Replace `develop` in the URL with the target branch.
+
+### Step 3 — Open the URL in your browser
+
+The PR form will open pre-filled with the checklist. Fill in:
+- **Title** — short description (`feat: add portfolio page`)
+- **What does this PR do?** — one paragraph
+- **Check every box** you've actually verified
+
+### Step 4 — Submit the PR and wait for CI
+
+Once GitHub Actions CI is set up, a check will run automatically. **Do not merge until it's green.**
+
+### Step 5 — Merge and clean up
+
+After the PR is merged on GitHub:
+```bash
+git checkout develop
+git pull origin develop
+git branch -d feature/your-feature-name
+```
 
 ---
 
