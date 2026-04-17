@@ -26,9 +26,9 @@
 
 - [x] **GitHub Actions CI** — created `.github/workflows/ci.yml` (contracts: compile + test; backend: install)
 - [x] **PR Template** — created 4 templates: `contracts.md`, `backend.md`, `frontend.md`, `docs.md`
-- [ ] **Obsidian Git plugin** — install from Community Plugins, set auto-backup to 10 min
-- [ ] **Obsidian Dataview plugin** — install from Community Plugins
-- [ ] **Filesystem MCP Server** — add `@modelcontextprotocol/server-filesystem` to `mcp.json`
+- [ ] **Obsidian Git plugin** — deferred, install later from Community Plugins
+- [ ] **Obsidian Dataview plugin** — deferred, install later from Community Plugins
+- [x] **Filesystem MCP Server** — added `@modelcontextprotocol/server-filesystem` to `mcp.json`
 - [x] **Make repo public** — unlocks full branch protection enforcement for free
 
 ---
