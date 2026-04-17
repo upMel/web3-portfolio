@@ -1,0 +1,80 @@
+services:
+  # Hardhat local blockchain node
+  hardhat:
+    build:
+      context: ./contracts
+      dockerfile: ../docker/Dockerfile.hardhat
+    container_name: web3_hardhat
+    ports:
+      - "8545:8545"
+    networks:
+      - web3-net
+    volumes:
+      - ./contracts:/app
+      - /app/node_modules
+    command: npx hardhat node --hostname 0.0.0.0
+
+  # Express backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ../docker/Dockerfile.backend
+    container_name: web3_backend
+    ports:
+      - "4000:4000"
+    environment:
+      PORT: 4000
+      RPC_URL: http://hardhat:8545
+      FRONTEND_URL: http://localhost:3000
+      CONTRACT_ADDRESS: ${CONTRACT_ADDRESS:-}
+    networks:
+      - web3-net
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    depends_on:
+      - hardhat
+    restart: on-failure
+
+  # PostgreSQL (optional)
+  postgres:
+    image: postgres:16-alpine
+    container_name: web3_postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-web3user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      POSTGRES_DB: ${POSTGRES_DB:-web3portfolio}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - web3-net
+
+  # Next.js frontend (development mode)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ../docker/Dockerfile.frontend
+    container_name: web3_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_BACKEND_URL: http://localhost:4000
+      NEXT_PUBLIC_RPC_URL: http://localhost:8545
+      NEXT_PUBLIC_CONTRACT_ADDRESS: ${CONTRACT_ADDRESS:-}
+    networks:
+      - web3-net
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      - backend
+
+networks:
+  web3-net:
+    driver: bridge
+
+volumes:
+  postgres_data:
