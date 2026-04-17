@@ -54,8 +54,9 @@ No token, no npm install — your existing Copilot login handles authentication.
 2. Signed in to GitHub from VS Code (your `upMel` account)
 3. VS Code automatically created the MCP config file at:
    ```
-   C:\Users\MeletisPeppas\AppData\Roaming\Code\User\mcp.json
+   %APPDATA%\Code\User\mcp.json
    ```
+   *(On Windows: typically `C:\Users\<username>\AppData\Roaming\Code\User\mcp.json`)*
 4. That file contains:
    ```json
    {
@@ -105,36 +106,35 @@ But for VS Code Copilot, the remote hosted version you already have is the right
 
 ## What could make this even better?
 
-### 1. GitHub Actions CI — ⬜ Not done yet
+### 1. GitHub Actions CI — ✅ Done
 **What it is:** Automated workflows that run on GitHub every time you push code or open a PR.
 
-**What it will do for this project:**
-- Automatically run `npx hardhat test` on every PR to `develop`
-- Block merging if any test fails
-- Show a green ✅ or red ❌ check on every PR
+**What it does for this project:**
+- Runs `npx hardhat compile` + `npx hardhat test` on every PR
+- Runs `npm ci` on the backend to verify it installs cleanly
+- Both jobs run in parallel on every PR to `main`, `staging`, or `develop`
+- Block merging if any check fails
 
 **Why it matters:** Smart contract bugs are permanent on mainnet. CI is the safety net that catches broken code before it ever reaches `staging` or `main`.
 
-**Status:** Will be set up as a `.github/workflows/ci.yml` file in the repo. Copilot can create this directly.
+**File:** `.github/workflows/ci.yml`
 
 ---
 
-### 2. PR Template — ⬜ Not done yet
-**What it is:** A `.github/pull_request_template.md` file that auto-fills every new PR with a checklist.
+### 2. PR Templates — ✅ Done
+**What it is:** Multiple PR template files, one per area of the codebase, that auto-fill a new PR with a relevant checklist when opened via the correct URL.
 
-**What it will look like:**
-```markdown
-## What does this PR do?
+**Templates created:**
+| File | Area |
+|---|---|
+| `.github/PULL_REQUEST_TEMPLATE/contracts.md` | Solidity, tests, deploy scripts |
+| `.github/PULL_REQUEST_TEMPLATE/backend.md` | Express routes, ethers.js, config |
+| `.github/PULL_REQUEST_TEMPLATE/frontend.md` | Next.js pages, wagmi hooks |
+| `.github/PULL_REQUEST_TEMPLATE/docs.md` | Obsidian notes, README |
 
-## Checklist
-- [ ] Tests pass (npx hardhat test)
-- [ ] No secrets committed
-- [ ] Docs updated if needed
-```
+**Why multiple?** Each area has different risks. Contract PRs need a checks-effects-interactions review; frontend PRs need a mobile responsiveness check. One template would be too generic.
 
-**Why it matters:** Forces you to think before merging. Also builds a good habit for when you work with others.
-
-**Status:** Copilot can create this file directly — just ask.
+**How to use:** See [[PR Templates]] for the full step-by-step procedure and template URLs.
 
 ---
 
@@ -147,12 +147,12 @@ But for VS Code Copilot, the remote hosted version you already have is the right
 ```bash
 npm install -g @modelcontextprotocol/server-filesystem
 ```
-Then add to `C:\Users\MeletisPeppas\AppData\Roaming\Code\User\mcp.json`:
+Then add to `%APPDATA%\Code\User\mcp.json`:
 ```json
 "filesystem": {
   "type": "stdio",
   "command": "npx",
-  "args": ["-y", "@modelcontextprotocol/server-filesystem", "C:\\Users\\MeletisPeppas\\Desktop\\web3"]
+  "args": ["-y", "@modelcontextprotocol/server-filesystem", "%USERPROFILE%\\Desktop\\web3"]
 }
 ```
 

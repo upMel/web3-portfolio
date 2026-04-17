@@ -11,7 +11,7 @@ A record of every tool connected to this project, why it was chosen, what it doe
 | [[GitHub MCP Server]] | AI + GitHub integration | ✅ Done | Runs via Copilot, no install needed |
 | [[Obsidian]] | Documentation | ✅ Done | This vault |
 | [[Git & GitHub]] | Version control | ✅ Done | Repo, branches, protection rules |
-| GitHub Actions CI | CI/CD | ⬜ Pending | Auto-run tests on every PR |
+| [[GitHub MCP Server#1. GitHub Actions CI|GitHub Actions CI]] | CI/CD | ✅ Done | Runs contracts (compile + test) and backend (install) on every PR |
 | [[PR Templates\|PR Templates]] | Workflow | ✅ Done | 4 templates: contracts, backend, frontend, docs |
 | Obsidian Git plugin | Documentation | ⬜ Pending | Auto-sync docs to GitHub |
 | Obsidian Dataview plugin | Documentation | ⬜ Pending | Query todos across all notes |

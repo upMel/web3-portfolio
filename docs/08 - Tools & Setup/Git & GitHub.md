@@ -27,7 +27,7 @@ Smart contract deployments are **irreversible**. Once a contract is on mainnet, 
 
 ### 1. Initialized local Git repo
 ```bash
-cd C:\Users\MeletisPeppas\Desktop\web3
+cd <PROJECT_ROOT>
 git init
 git remote add origin https://github.com/upMel/web3-portfolio.git
 git fetch origin
@@ -36,7 +36,7 @@ git checkout main
 
 ### 2. Created GitHub repository
 - Done via **GitHub MCP Server** from Copilot chat
-- Repo: `upMel/web3-portfolio` (private)
+- Repo: `upMel/web3-portfolio` (public)
 - All project files pushed in one commit: `d9b6eea`
 
 ### 3. Created branches
@@ -63,7 +63,7 @@ Set via **GitHub → Settings → Branches → Add branch protection rule**
 | `staging` | Same as `main` |
 | `develop` | No restrictions (solo dev, direct push allowed) |
 
-> Note: On free private repos, the repo owner can bypass these rules. To fully enforce them, the repo would need to be public or on GitHub Team.
+> Note: The repo is public, so branch protection rules are fully enforced — even the owner cannot bypass them without changing the rules explicitly.
 
 ---
 
