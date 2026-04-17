@@ -26,7 +26,7 @@ The key advantage here: **docs live inside the repo**. When you push code, you p
 
 ## Setup steps (what was done)
 
-1. Opened VS Code in the project folder `C:\Users\MeletisPeppas\Desktop\web3`
+1. Opened VS Code in the project folder `<PROJECT_ROOT>`
 2. Copilot created the vault structure:
    - `.obsidian/app.json` — vault settings (relative links, Markdown mode)
    - `.obsidian/workspace.json` — layout (file explorer open, home note as default)
@@ -67,7 +67,7 @@ docs/
 1. Open Obsidian
 2. Click **"Open another vault"** (bottom left)
 3. Select **"Open folder as vault"**
-4. Navigate to `C:\Users\MeletisPeppas\Desktop\web3\docs`
+4. Navigate to `<PROJECT_ROOT>/docs`
 5. Start at `00 - Home.md`
 
 ---
