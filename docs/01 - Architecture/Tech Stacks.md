@@ -140,8 +140,166 @@ Foundry is excellent and faster than Hardhat. But:
 | Smart contracts | **Hardhat** | Foundry | JS tests, easier onboarding |
 | Backend | **Express** | Fastify | Simple, explicit, Docker-friendly |
 | Backend Web3 | **ethers.js v6** | viem | No React needed server-side |
+| ORM | **Prisma** | TypeORM / Drizzle | Type-safe, great DX, auto-migrations |
+| Cache / Events | **Redis + Socket.io** | Polling | Pub/sub for real-time contract events |
+| Contract testing | **Foundry** (+ Hardhat) | Hardhat alone | Fuzz + invariant tests in Solidity |
+| Blockchain indexing | **The Graph** | Backend polling | Decentralised, GraphQL, production standard |
+| File storage | **IPFS + Pinata** | S3 / Cloudinary | Decentralised, censorship-resistant |
+| Frontend unit tests | **Vitest** | Jest | Faster, native ESM, same config as Vite/Next |
+| E2E tests | **Playwright** | Cypress | Cross-browser, faster, better async support |
 | DevOps | **Docker Compose** | Manual | Reproducible, teaches containers |
 | Docs | **Obsidian** | Notion | Local, Markdown, no account needed |
+
+---
+
+## ORM — Prisma vs TypeORM vs Drizzle vs raw SQL
+
+| | raw SQL | TypeORM | **Prisma** ✅ | Drizzle |
+|---|---|---|---|---|
+| Type safety | ❌ | ⚠️ Partial | ✅ Full, generated types | ✅ Full |
+| Schema definition | SQL files | TS decorators | `schema.prisma` DSL | TS code |
+| Migrations | Manual | Auto / manual | ✅ `prisma migrate` | Manual / `drizzle-kit` |
+| Query API | Raw strings | ActiveRecord style | `prisma.model.findMany()` | SQL-like builder |
+| Learning curve | Low (if you know SQL) | Medium | Low | Medium |
+| Studio / UI | ❌ | ❌ | ✅ `prisma studio` | ❌ |
+| Active development | — | ⚠️ Slower | ✅✅ | ✅✅ Growing fast |
+
+### Why Prisma ✅
+- Zero-boilerplate TypeScript types generated from your schema — no casting, no guessing
+- `prisma migrate dev` creates SQL migration files and applies them automatically
+- Prisma Studio gives you a browser-based DB GUI for free — useful while learning
+- Works with PostgreSQL, MySQL, SQLite, MongoDB — no vendor lock-in
+- Drizzle is a strong alternative once you're comfortable with SQL; Prisma is the better starting point
+
+---
+
+## Real-time Events — Redis + Socket.io vs Polling vs GraphQL Subscriptions
+
+| | Polling | Server-Sent Events | **Redis + Socket.io** ✅ | GraphQL Subscriptions |
+|---|---|---|---|---|
+| Complexity | Very low | Low | Medium | High |
+| Real-time | ⚠️ Near-real-time | ✅ One-way | ✅ Bi-directional | ✅ |
+| Scales across instances | ❌ | ❌ | ✅ (Redis pub/sub) | ✅ (with broker) |
+| Works with Express | ✅ | ✅ | ✅ | ⚠️ Needs Apollo |
+| Good for contract events | ❌ (wasteful) | ✅ | ✅✅ | ✅ |
+
+### Why Redis + Socket.io ✅
+- Backend listens to `ProjectAdded` / `ProjectRemoved` events from the chain via ethers.js provider
+- Publishes to a Redis channel — scales across multiple Express instances
+- Socket.io emits to all connected browser clients instantly
+- Frontend receives the event, updates the project list without a page reload or poll
+- Redis also doubles as a cache (e.g., cache `getAllProjects` responses)
+
+---
+
+## Smart Contract Testing — Foundry vs Hardhat (extended)
+
+Foundry is added *alongside* Hardhat — not replacing it.
+
+| | Hardhat tests | **Foundry tests** ✅ (added) |
+|---|---|---|
+| Language | JavaScript / Mocha | Solidity |
+| Fuzz testing | ❌ | ✅ built-in |
+| Invariant testing | ❌ | ✅ built-in |
+| Speed | Medium | Very fast (Rust) |
+| Readable diffs on failure | ✅ | ✅ |
+
+### Fuzz testing
+Foundry automatically generates thousands of random inputs for your function and checks it never breaks.
+```solidity
+function testFuzz_AddProject(string memory name, string memory desc, string memory url) public {
+    vm.prank(owner);
+    portfolio.addProject(name, desc, url);
+    assertEq(portfolio.projectCount(), 1);
+}
+```
+
+### Invariant testing
+Foundry repeatedly calls random sequences of functions and checks an invariant always holds.
+```solidity
+// projectCount() must always equal the number of active projects
+function invariant_countMatchesActive() public view { ... }
+```
+
+---
+
+## Blockchain Indexing — The Graph vs Backend Polling vs Moralis
+
+| | Backend polling (`eth_getLogs`) | Moralis | **The Graph** ✅ |
+|---|---|---|---|
+| Decentralised | ❌ | ❌ | ✅ |
+| Query language | Custom REST | REST / GraphQL | GraphQL |
+| Historical data | ✅ (slow) | ✅ | ✅ (fast) |
+| Cost | Infrastructure | Paid SaaS | Free on testnet |
+| Production usage | Small projects | Mid-size | Uniswap, Aave, ENS |
+| Reorg handling | Manual | ✅ | ✅ |
+
+### How The Graph works
+1. You write a **subgraph** — a manifest (`subgraph.yaml`), a GraphQL schema, and AssemblyScript mappings
+2. The Graph node watches your contract, calls your mapping when an event fires, writes to its own DB
+3. Your frontend queries `https://api.thegraph.com/subgraphs/name/...` with standard GraphQL — no RPC calls
+4. Result: instant pagination, filtering, sorting over all historical events — impossible with `getAllProjects()` alone
+
+---
+
+## Decentralised Storage — IPFS + Pinata vs S3 vs Cloudinary
+
+| | S3 / R2 | Cloudinary | **IPFS + Pinata** ✅ |
+|---|---|---|---|
+| Decentralised | ❌ | ❌ | ✅ |
+| Cost | Pay per GB | Free tier | Free tier (1 GB) |
+| Censorship-resistant | ❌ | ❌ | ✅ |
+| Content-addressed | ❌ | ❌ | ✅ (CID = hash of content) |
+| Image transforms | ❌ (manual) | ✅ built-in | ❌ |
+| NFT-ready | ❌ | ❌ | ✅ (industry standard) |
+| Setup complexity | Low | Very low | Low (Pinata wraps IPFS) |
+
+### Content addressing
+IPFS identifies files by their content hash (CID), not by a URL. If the file changes, the CID changes.  
+This means: store the CID on-chain → the reference can never be tampered with.
+
+### Pinata
+Pinata is a managed IPFS pinning service — it keeps your files available on the IPFS network without you running your own node. Free tier is sufficient for a portfolio project.
+
+---
+
+## Frontend Unit Testing — Vitest vs Jest
+
+| | Jest | **Vitest** ✅ |
+|---|---|---|
+| Speed | Medium (slow cold start) | Fast (Vite-native) |
+| Native ESM | ⚠️ Needs transform | ✅ |
+| Config reuse | Separate | Shares `vite.config.ts` |
+| watch mode | ✅ | ✅ (faster) |
+| Mocking | ✅ | ✅ (`vi.mock`, `vi.fn`) |
+| Next.js support | ✅ (extra config) | ✅ (extra config) |
+| TypeScript | ✅ | ✅ |
+
+### Why Vitest ✅
+- No transform config needed for ESM packages (wagmi, viem ship as ESM)
+- Same `vi` API as Jest's `jest` — near-zero migration cost if you know Jest
+- `vi.mock('wagmi', ...)` makes it easy to stub `useReadContract`, `useWriteContract` in hook tests
+
+---
+
+## E2E Testing — Playwright vs Cypress
+
+| | Cypress | **Playwright** ✅ |
+|---|---|---|
+| Cross-browser | ⚠️ Chromium + Firefox (limited) | ✅ Chromium, Firefox, WebKit |
+| Speed | Medium | Fast (parallel by default) |
+| TypeScript | ✅ | ✅ |
+| Auto-wait | ✅ | ✅ |
+| Mobile emulation | ⚠️ | ✅ |
+| Wallet/Web3 testing | Manual | ✅ (mock provider pattern) |
+| CI integration | ✅ | ✅ |
+| Maintained by | Cypress.io | Microsoft |
+
+### Why Playwright ✅
+- True cross-browser — tests run against Chromium, Firefox, and Safari engine (WebKit)
+- Built-in network interception — mock the RPC provider, simulate wallet responses
+- Faster in CI because test suites run in parallel workers by default
+- `page.route()` lets you stub contract reads so E2E tests don't need a running Hardhat node
 
 ---
 
