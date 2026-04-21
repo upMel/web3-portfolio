@@ -2,6 +2,53 @@
 
 ---
 
+## 2026-04-21 — Full Stack Running, Docs & MetaMask Setup
+
+**Done:**
+- Fixed port 3000 conflict on host (`taskkill /PID`) — Docker stack came up cleanly
+- All 4 containers running: `web3_hardhat`, `web3_backend`, `web3_postgres`, `web3_frontend`
+- Added **Hardhat Local** network to MetaMask (RPC `http://127.0.0.1:8545`, chain ID `31337`)
+- Imported Hardhat Account #0 into MetaMask (owner wallet for admin panel)
+- Committed session work on `feature/portfolio-and-admin`:
+  - `fix: downgrade wagmi to v2 for RainbowKit compat, deploy contract, add architecture and docker docs`
+  - Files: `frontend/package.json`, `frontend/src/lib/deployment.json`, `docs/01 - Architecture/Tech Stacks.md`, `docs/01 - Architecture/Architecture Diagram.md`, `docs/05 - Docker/Setup.md`, `docs/05 - Docker/Docker Explained.md`
+
+**Key reminder — contract redeploy on every Docker restart:**
+Every time `docker compose down` + `docker compose up` is run, the Hardhat chain resets.
+Must re-run: `cd contracts && npx hardhat run scripts/deploy.js --network localhost`
+Then update `CONTRACT_ADDRESS` in `.env` if the address changes (it won't change if no prior deploys have happened — it'll always be `0x5FbDB2315678afecb367f032d93F642f64180aa3` on a fresh chain).
+
+**What's left before this branch is done:**
+- [ ] Verify app works end-to-end — connect wallet at `http://localhost:3000`, add a project via `/admin`, confirm it appears on `/`
+- [ ] Test backend API: `curl http://localhost:4000/api/portfolio`
+- [ ] Open PR: `feature/portfolio-and-admin` → `develop`
+
+**Up next (feature branches):**
+- [ ] `feature/prisma-postgres` — Prisma schema, DB migrations, REST routes
+- [ ] `feature/redis-events` — Redis pub/sub + Socket.io real-time updates
+- [ ] `feature/the-graph` — subgraph indexing on Sepolia
+- [ ] `feature/ipfs-pinata` — IPFS file storage via Pinata
+- [ ] `feature/foundry-tests` — fuzz + invariant tests
+- [ ] Deploy to Sepolia testnet
+- [ ] Host on Vercel (frontend) + Railway (backend)
+
+---
+
+## 2026-04-18 — Docker, wagmi Fix & Docs
+
+**Done:**
+- Fixed `ERESOLVE` during Docker build — downgraded `wagmi` from `^3.6.2` → `^2.14.0` (RainbowKit 2.x requires wagmi v2)
+- `docker compose up --build` succeeded — all 4 containers built and running
+- Deployed `Portfolio.sol` to local Hardhat: `0x5FbDB2315678afecb367f032d93F642f64180aa3`
+- Set `CONTRACT_ADDRESS` in `.env`, `deployment.json` written to `frontend/src/lib/`
+- Created `docs/01 - Architecture/Architecture Diagram.md` — full Mermaid diagram suite (stack overview, data flow, Docker network, planned features, git roadmap)
+- Created `docs/05 - Docker/Docker Explained.md` — from-scratch Docker explainer (images, containers, volumes, networks, Compose)
+- Expanded `docs/05 - Docker/Setup.md` — first-time setup, daily dev flow, useful commands
+- Added version compatibility notes to `docs/01 - Architecture/Tech Stacks.md`
+- Fixed Obsidian `.gitignore` (added `app.json`, `appearance.json`, `core-plugins.json`)
+
+---
+
 ## 2026-04-17 — Project Kickoff & Setup
 
 **Done:**
@@ -41,7 +88,7 @@
 - [x] **Wire wagmi into frontend** — wagmi v2 + viem + RainbowKit configured
 - [x] **Build portfolio page** — reads all active projects from contract, loading/error/empty states
 - [x] **Build admin panel** — owner-only, add project form + remove button, wallet-gated
-- [ ] **Run full stack** — `docker compose up --build`
+- [x] **Run full stack** — `docker compose up --build`
 - [ ] **Deploy to Sepolia testnet** — first real deployment
 - [ ] **Set up Vercel / Railway** — host frontend and backend
 
