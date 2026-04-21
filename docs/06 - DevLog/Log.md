@@ -2,24 +2,44 @@
 
 ---
 
-## 2026-04-21 — Full Stack Running, Docs & MetaMask Setup
+## 2026-04-21 — Full Stack E2E Working, WalletConnect Fix, Styling
 
 **Done:**
 - Fixed port 3000 conflict on host (`taskkill /PID`) — Docker stack came up cleanly
 - All 4 containers running: `web3_hardhat`, `web3_backend`, `web3_postgres`, `web3_frontend`
 - Added **Hardhat Local** network to MetaMask (RPC `http://127.0.0.1:8545`, chain ID `31337`)
 - Imported Hardhat Account #0 into MetaMask (owner wallet for admin panel)
-- Committed session work on `feature/portfolio-and-admin`:
-  - `fix: downgrade wagmi to v2 for RainbowKit compat, deploy contract, add architecture and docker docs`
-  - Files: `frontend/package.json`, `frontend/src/lib/deployment.json`, `docs/01 - Architecture/Tech Stacks.md`, `docs/01 - Architecture/Architecture Diagram.md`, `docs/05 - Docker/Setup.md`, `docs/05 - Docker/Docker Explained.md`
+- Fixed admin page returning 404 — forced `docker compose up --build` to rebuild frontend image
+- **Root-caused and fixed wallet connection failure:**
+  - RainbowKit's `getDefaultConfig` internally initialises WalletConnect which calls `api.web3modal.org` with `projectId=your_project_id_from_cloud.walletconnect.com` (placeholder)
+  - WalletConnect returned 403 → entire connection modal silently broken → MetaMask never triggered
+  - **Fix:** replaced RainbowKit with direct `wagmi createConfig` + `injected()` connector
+  - Created `ConnectWalletButton` component — direct MetaMask injection, no modal, no external calls
+  - Removed `RainbowKitProvider` from `providers.tsx`
+- Fixed white-on-white text contrast in admin form inputs and navbar logo/wallet address
+- **End-to-end verified:** connected MetaMask owner wallet → added project on-chain → confirmed on `/admin` and `/`
+- Committed: `fix: replace RainbowKit/WalletConnect with injected connector, fix text contrast`
+
+**⚠️ WalletConnect / RainbowKit — Temporary Fix, Action Required Before Production**
+This is a local-dev workaround. WalletConnect is needed for:
+- Mobile wallet support (WalletConnect QR code)
+- Non-MetaMask wallets (Coinbase Wallet, Rainbow, etc.)
+- Sepolia / mainnet deployment where users won't have the test account
+
+**To restore WalletConnect properly before Sepolia deployment:**
+1. Create a free account at https://cloud.walletconnect.com
+2. Create a new project → copy the Project ID
+3. Add to `.env`: `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=<your_real_id>`
+4. In `wagmi.ts`, add back the `walletConnect({ projectId })` connector
+5. Optionally restore `RainbowKitProvider` if you want the full wallet picker UI
 
 **Key reminder — contract redeploy on every Docker restart:**
 Every time `docker compose down` + `docker compose up` is run, the Hardhat chain resets.
 Must re-run: `cd contracts && npx hardhat run scripts/deploy.js --network localhost`
-Then update `CONTRACT_ADDRESS` in `.env` if the address changes (it won't change if no prior deploys have happened — it'll always be `0x5FbDB2315678afecb367f032d93F642f64180aa3` on a fresh chain).
+Address is always `0x5FbDB2315678afecb367f032d93F642f64180aa3` on a fresh chain.
 
 **What's left before this branch is done:**
-- [ ] Verify app works end-to-end — connect wallet at `http://localhost:3000`, add a project via `/admin`, confirm it appears on `/`
+- [x] Verify app works end-to-end — connected wallet, added project, confirmed on `/`
 - [ ] Test backend API: `curl http://localhost:4000/api/portfolio`
 - [ ] Open PR: `feature/portfolio-and-admin` → `develop`
 
@@ -29,6 +49,7 @@ Then update `CONTRACT_ADDRESS` in `.env` if the address changes (it won't change
 - [ ] `feature/the-graph` — subgraph indexing on Sepolia
 - [ ] `feature/ipfs-pinata` — IPFS file storage via Pinata
 - [ ] `feature/foundry-tests` — fuzz + invariant tests
+- [ ] Get WalletConnect projectId → restore full wallet picker for Sepolia
 - [ ] Deploy to Sepolia testnet
 - [ ] Host on Vercel (frontend) + Railway (backend)
 
