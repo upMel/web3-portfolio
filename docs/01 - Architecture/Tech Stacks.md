@@ -148,6 +148,23 @@ Foundry is excellent and faster than Hardhat. But:
 | Frontend unit tests | **Vitest** | Jest | Faster, native ESM, same config as Vite/Next |
 | E2E tests | **Playwright** | Cypress | Cross-browser, faster, better async support |
 | DevOps | **Docker Compose** | Manual | Reproducible, teaches containers |
+
+---
+
+## ⚠️ Version Compatibility Notes
+
+Known breaking changes and pinned versions to watch out for.
+
+| Package | Pinned To | Why |
+|---|---|---|
+| `wagmi` | `^2.x` | RainbowKit 2.x requires wagmi `^2.9.0` — wagmi v3 is a breaking major release that RainbowKit hasn't caught up to yet. Do **not** upgrade wagmi to v3 until RainbowKit explicitly supports it. |
+
+### wagmi v2 vs v3
+- wagmi v3 dropped several hooks and changed the API surface significantly
+- RainbowKit 2.x peer dep is locked to `wagmi@^2.9.0` (verified via `npm info @rainbow-me/rainbowkit peerDependencies`)
+- Upgrading `package.json` to `wagmi@^3.x` will cause `npm install` to fail with an `ERESOLVE` conflict
+
+**Last checked:** 2026-04-18
 | Docs | **Obsidian** | Notion | Local, Markdown, no account needed |
 
 ---
