@@ -20,6 +20,9 @@ frontend/out/
 docs/.obsidian/workspace.json
 docs/.obsidian/workspace-mobile.json
 docs/.obsidian/.obsidian/
+docs/.obsidian/app.json
+docs/.obsidian/appearance.json
+docs/.obsidian/core-plugins.json
 
 # OS
 .DS_Store
