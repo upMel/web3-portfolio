@@ -1,11 +1,21 @@
 'use client';
 
-import { getDefaultConfig } from '@rainbow-me/rainbowkit';
+import { createConfig, http } from 'wagmi';
 import { hardhat, sepolia } from 'wagmi/chains';
+import { injected, walletConnect } from 'wagmi/connectors';
 
-export const config = getDefaultConfig({
-  appName: 'Web3 Portfolio',
-  projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID ?? 'local-dev',
+const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID;
+
+const connectors = projectId
+  ? [injected(), walletConnect({ projectId })]
+  : [injected()];
+
+export const config = createConfig({
   chains: [hardhat, sepolia],
+  connectors,
+  transports: {
+    [hardhat.id]: http('http://127.0.0.1:8545'),
+    [sepolia.id]: http(),
+  },
   ssr: true,
 });
